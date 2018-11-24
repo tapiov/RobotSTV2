@@ -1,0 +1,5 @@
+console.c:78:5:cuiGetInteger	64	static
+console.c:101:5:uartSendChar	16	static
+console.c:112:5:uartReceiveChar	16	static
+console.c:204:5:__io_putchar	0	static
+console.c:213:5:__io_getchar	0	static

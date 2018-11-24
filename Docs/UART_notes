@@ -1,0 +1,5 @@
+ROBOUART	UART	Dir	DMA		 NucleoPin	Morpho	IWDMorpho	Dir
+==========================================================================================================================
+WIFI UART	UART2	RX	DMA1 STREAM5 CH4 PD6		C11 43	CN10 21		TX	GPIO2_B
+     		UART2	TX	DMA1 STREAM6 CH4 PD5		C11 41	CN10 33		RX	GPIO11_B
+

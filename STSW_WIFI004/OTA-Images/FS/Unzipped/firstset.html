@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head><title>FirstSet</title></head>
+<body><fieldset>
+<legend><h4>SPWF04S First Config</h4></legend>
+<form name="FirstSet" method="POST">
+<table>
+<tr>
+<td>Insert PassKey:</td>
+<td><input type="password" name="Key"></td>
+</tr>
+<tr>
+<td>Insert the SSID:</td>
+<td><input type="text" name="Ssid"></td>
+</tr>
+<tr>
+<td>Insert the Pwd:</td>
+<td><input type="password" name="Pwd"></td>
+</tr>
+<tr>
+<td>Insert the WPAE Id:</td>
+<td><input type="text" name="WpaeId"></td>
+</tr>
+<tr>
+<td>Insert the WPAE AnonId:</td>
+<td><input type="text" name="WpaeAnonId"></td>
+</tr>
+<tr>
+<td>Choose WPAE Type:</td>
+<td><select name="WpaeType">
+<option value="0" selected>TLS</option>
+<option value="1">TTLS-MD5</option>
+<option value="2">TTLS-MSCHAP</option>
+<option value="3">PEAP-MD5</option>
+<option value="4">PEAP-MSCHAP</option>
+</select></td>
+</tr>
+<tr>
+<td>Insert Static IP Address:</td>
+<td><input type="text" name="Ip"></td>
+</tr>
+<tr>
+<td>Insert Static NetMask:</td>
+<td><input type="text" name="Netmask"></td>
+</tr>
+<tr>
+<td>Insert Static GW Address:</td>
+<td><input type="text" name="Gateway"></td>
+</tr>
+<tr>
+<td>Insert Static DNS1 Address:</td>
+<td><input type="text" name="Dns1"></td>
+</tr>
+<tr>
+<td>Insert Static DNS2 Address:</td>
+<td><input type="text" name="Dns2"></td>
+</tr>
+<tr>
+<td>Choose DHCP Option:</td>
+<td><select name="Dhcp">
+<option value="0">OFF</option>
+<option value="1">ON</option>
+<option value="2" selected>AutoIP</option>
+</select></td>
+</tr>
+<tr>
+<td>Choose WEP Auth Type:</td>
+<td><select name="IbssAuth">
+<option value="0">Open System</option>
+<option value="1">Shared Key</option>
+</select></td>
+</tr>
+<tr>
+<td>Choose Auth:</td>
+<td><select name="Auth">
+<option value="0">Open</option>
+<option value="1">Wep</option>
+<option value="2">Wpa & Wpa2 Personal</option>
+<option value="3">Wpa Enterprise</option>
+</select></td>
+</tr>
+<tr>
+<td>Choose Mode:</td>
+<td><select name="Mode">
+<option value="0">Idle</option>
+<option value="1">Station</option>
+<option value="2">IBSS</option>
+<option value="3">Mini AP</option>
+</select></td>
+</tr>
+</table>
+<input type="submit" name="Reboot" value="Push" onclick="alert('Press OK to send, then wait a few seconds.')">
+</form>
+</fieldset>
+</body>
+</html>

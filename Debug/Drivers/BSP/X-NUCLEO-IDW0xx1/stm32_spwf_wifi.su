@@ -1,0 +1,12 @@
+stm32_spwf_wifi.c:199:6:UART_Configuration	120	static
+stm32_spwf_wifi.c:303:10:WiFi_CheckBaudrate	40	static
+stm32_spwf_wifi.c:322:19:WiFi_Module_UART_Configuration	8	static
+stm32_spwf_wifi.c:364:6:WiFi_SPI_Init	8	static
+stm32_spwf_wifi.c:388:6:SPI_Gpio_Init	72	static
+stm32_spwf_wifi.c:457:6:set_irq_as_output	8	static
+stm32_spwf_wifi.c:469:6:set_irq_as_input	0	static
+stm32_spwf_wifi.c:480:6:Enable_SPI_Receiving_Path	8	static
+stm32_spwf_wifi.c:492:6:Disable_SPI_Receiving_Path	0	static
+stm32_spwf_wifi.c:502:6:Enable_SPI_CS	8	static
+stm32_spwf_wifi.c:516:6:Disable_SPI_CS	0	static
+stm32_spwf_wifi.c:533:6:DisableEnable_SPI_CS	16	static

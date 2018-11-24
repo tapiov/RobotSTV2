@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head><title>Remote Controlling Demo</title></head>
+<body>
+<script>
+function check(){
+document.getElementById("1").removeAttribute("name");
+document.getElementById("2").removeAttribute("name");
+document.getElementById("3").removeAttribute("name");
+document.getElementById("4").removeAttribute("name");
+if(document.getElementById("1").checked){document.getElementById("w").removeAttribute("name");document.getElementById("d").removeAttribute("name");document.getElementById("p").removeAttribute("name");}
+else if(document.getElementById("2").checked){document.getElementById("c").removeAttribute("name");document.getElementById("d").removeAttribute("name");document.getElementById("p").removeAttribute("name");}
+else if(document.getElementById("3").checked){document.getElementById("c").removeAttribute("name");document.getElementById("w").removeAttribute("name");document.getElementById("p").removeAttribute("name");}
+else if(document.getElementById("4").checked){document.getElementById("c").removeAttribute("name");document.getElementById("w").removeAttribute("name");document.getElementById("d").removeAttribute("name");}
+else if(document.getElementById("5").checked){document.getElementById("6").removeAttribute("name");}
+else if(document.getElementById("6").checked){document.getElementById("5").removeAttribute("name");}
+}
+</script>
+<fieldset><legend><h4>SPWF04S Remote Peripherals Demo</h4></legend>
+<form method="POST" onsubmit="check()">
+<table>
+<tr>
+<td><input type="radio" id="1" name="x">GPIOConfig #13:</td>
+<td><select id="c" name="GpioC_13"><option value="out">Output</option><option value="in">Input</option><option value="in_r">Rising</option><option value="in_f">Falling</option><option value="in_b">Both</option></select></td>
+</tr>
+<tr>
+<td><input type="radio" id="2" name="x">GPIOWrite #13:</td>
+<td><select id="w" name="GpioW_13"><option value="1">High</option><option value="0">Low</option></select></td>
+</tr>
+<tr>
+<td><input type="radio" id="3" name="x">DAC:</td>
+<td><input type="text" id="d" size="4" name="DAC">mV</td>
+</tr>
+<tr>
+<td><input type="radio" id="4" name="x">PWM #2 10KHz:</td>
+<td><select id="p" name="PWM_2"><option value="10000_25">25%</option><option value="10000_50" selected>50%</option><option value="10000_75">75%</option><option value="10000_100">100%</option></select><td>
+</tr>
+</table>
+<input type="submit" value="Push">
+</form>
+</fieldset>
+<fieldset>
+<legend><h4>SPWF04S Remote Configuration Demo</h4></legend>
+<form method="POST">
+<table>
+<tr>
+<td>Insert PassKey:</td>
+<td><input type="password" name="Key"></td>
+</tr>
+<tr>
+<td>Turn on/off blinky led:</td>
+<td><select name="Scfg_blink_led"><option value="1">On (Click Save&Reboot)</option><option value="0">Off (Click Push)</option></select></td>
+</tr>
+</table>
+<input type="submit" value="Push">
+<input type="submit" name="Reboot" value="Save&Reboot" onclick="alert('Press OK to send, then wait a few seconds.')">
+</form>
+</fieldset>
+<fieldset>
+<legend><h4>SPWF04S Remote WakeUp</h4></legend>
+<form method="POST" onsubmit="check()">
+<table>
+<tr>
+<td><input type="radio" id="5" name="Sleep" value="0"/>WakeUp</td>
+</tr>
+<tr>
+<td><input type="radio" id="6" name="Sleep" value="1"/>Sleep</td>
+</tr>
+</table>
+<input type="submit" value="Push">
+</form>
+</fieldset>
+</body>
+</html>

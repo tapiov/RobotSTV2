@@ -1,0 +1,4 @@
+spwf04WiFi.c:235:19:cmd_funcArgs	48	static
+spwf04WiFi.c:165:5:get_cmd_id	24	static
+spwf04WiFi.c:184:8:get_cmd_string	16	static
+spwf04WiFi.c:201:5:run_spi_cmd	40	static

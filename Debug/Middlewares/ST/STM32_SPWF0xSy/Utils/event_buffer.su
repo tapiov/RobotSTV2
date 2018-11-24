@@ -1,0 +1,6 @@
+event_buffer.c:88:6:event_init	0	static
+event_buffer.c:105:5:event_full	0	static
+event_buffer.c:117:5:event_empty	0	static
+event_buffer.c:128:6:push_eventbuffer_queue	24	static
+event_buffer.c:161:22:pop_eventbuffer_queue	16	static
+event_buffer.c:196:6:reset_event	0	static

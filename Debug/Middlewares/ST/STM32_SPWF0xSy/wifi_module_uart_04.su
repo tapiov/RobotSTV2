@@ -1,0 +1,11 @@
+wifi_module_uart_04.c:98:7:memmem	24	static
+wifi_module_uart_04.c:127:15:Soft_Reset	8	static
+wifi_module_uart_04.c:161:6:unused_data_handling	24	static
+wifi_module_uart_04.c:232:6:Adjust_DMA_Buffer_Index	0	static
+wifi_module_uart_04.c:247:6:Check_for_Extra_Bytes	16	static
+wifi_module_uart_04.c:280:11:is_End_of_Buffer_Reached	16	static
+wifi_module_uart_04.c:1624:6:Process_Wind_Indication	24	static
+wifi_module_uart_04.c:586:6:Process_DMA_Buffer_Messages	176	static
+wifi_module_uart_04.c:311:6:Process_DMA_Buffer	56	static
+wifi_module_uart_04.c:210:6:Read_DMA_Buffer	16	static
+wifi_module_uart_04.c:1837:6:Queue_Server_Write_Event	24	static

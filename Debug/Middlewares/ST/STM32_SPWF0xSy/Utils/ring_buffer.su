@@ -1,0 +1,9 @@
+ring_buffer.c:84:6:init	0	static
+ring_buffer.c:99:6:flush_buffer_queue	0	static
+ring_buffer.c:111:5:is_half_full	0	static
+ring_buffer.c:122:5:is_half_empty	0	static
+ring_buffer.c:133:5:full	0	static
+ring_buffer.c:144:5:empty	0	static
+ring_buffer.c:156:6:push_buffer_queue	8	static
+ring_buffer.c:176:11:pop_buffer_queue	24	static
+ring_buffer.c:257:6:rewind_buffer_queue	0	static

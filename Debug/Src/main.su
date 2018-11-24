@@ -1,0 +1,4 @@
+main.c:244:6:SystemClock_Config	240	static
+main.c:328:6:USART_PRINT_MSG_Configuration	8	static
+main.c:92:5:main	8	static
+main.c:359:6:_Error_Handler	0	static

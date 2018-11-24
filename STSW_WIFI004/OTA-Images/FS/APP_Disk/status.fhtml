@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head><title>SPWF04S Device Status</title></head>
+<body><fieldset>
+<legend><h4>SPWF04S Device Status</h4></legend>
+<!--|06|DevSts|build|--><br>
+<!--|06|DevSts|fw_version|--><br>
+<!--|06|DevSts|boot_version|--><br>
+<!--|06|DevSts|var_version|--><br>
+<!--|06|DevSts|free_heap|--><br>
+<!--|06|DevSts|min_heap|--><br>
+<!--|06|DevSts|system_time|--><br>
+<!--|06|DevSts|system_uptime|--><br>
+<!--|06|DevSts|system_sleeptime|--><br>
+<!--|06|DevSts|reset_reason|--><br>
+<!--|06|DevSts|startup|--><br>
+<!--|06|DevSts|random_number|--><br>
+<!--|06|DevSts|gpio_enable|--><br>
+<!--|06|DevSts|user_fs|--><br>
+<!--|06|DevSts|extvol_fs|--><br>
+<!--|06|DevSts|nv_power_cycles|--><br>
+<!--|06|DevSts|nv_wdog_resets|--><br>
+<!--|06|DevSts|nv_reset_cycles|--><br>
+<!--|06|DevSts|wifi_state|--><br>
+<!--|06|DevSts|wifi_own_macaddr|--><br>
+<!--|06|DevSts|wifi_bssid|--><br>
+<!--|06|DevSts|wifi_aid|--><br>
+<!--|06|DevSts|wifi_channelnum|--><br>
+<!--|06|DevSts|wifi_sup_rate_mask|--><br>
+<!--|06|DevSts|wifi_bas_rate_mask|--><br>
+<!--|06|DevSts|wifi_chan_activity|--><br>
+<!--|06|DevSts|wifi_max_tx_power|--><br>
+<!--|06|DevSts|wifi_gf_mode|--><br>
+<!--|06|DevSts|wifi_reg_country|--><br>
+<!--|06|DevSts|wifi_dtim_period|--><br>
+<!--|06|DevSts|wifi_num_assoc|--><br>
+<!--|06|DevSts|ip_from_AutoIP|--><br>
+<!--|06|DevSts|ip_ipaddr|--><br>
+<!--|06|DevSts|ip_netmask|--><br>
+<!--|06|DevSts|ip_gw|--><br>
+<!--|06|DevSts|ip_dns1|--><br>
+<!--|06|DevSts|ip_dns2|--><br>
+<!--|06|DevSts|ip_linklocal|--><br>
+<!--|06|DevSts|ip_local|--><br>
+<!--|06|DevSts|ip_dns1v6|--><br>
+<!--|06|DevSts|ip_dns2v6|--><br>
+<br>
+ADC:<!--|06|ADC|0|--><br>
+GPIORead #0:<!--|06|GpioR|0|--><br>
+</fieldset>
+</body>
+</html>

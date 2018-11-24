@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<meta charset="UTF-8">
+<head><title>DaveBot 4000</title></head>
+<body>
+<a href="index.html"><img src="davepic.jpg"></a>
+<fieldset>
+<legend><h1>DaveBot 4000 käynnissä ... </h1></legend>
+<p>Tervetuloa robotin hallintaan</p>
+<ul>
+<li><a href=/config.fhtml>Configuration Page</a></li>
+<li><a href=/status.fhtml>Status Page</a></li>
+<li><a href=/peers.fhtml>Peers Page</a></li>
+<li><a href=/remote.html>Remote Peripherals</a></li>
+<li><a href=/output_demo.html>Output Demonstrator</a></li>
+<li><a href=/input_demo.fhtml>Input Demonstrator</a></li>
+</ul>
+</fieldset>
+</body>
+</html>

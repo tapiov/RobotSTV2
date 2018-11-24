@@ -1,0 +1,3 @@
+#define SYSTEM_DATE "171117"
+#define SYSTEM_BUILD "0328fe3"
+#define SYSTEM_MODEL "SPWF04S"

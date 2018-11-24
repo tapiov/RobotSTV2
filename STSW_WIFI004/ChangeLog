@@ -1,0 +1,74 @@
+20171117 (Rel 1.1.0)
+========
+Highlight: fixed KRACK vulnerability; extended MicroPython classes set; added WPA to miniAP mode; higher throughput; ECC-based key exchange algorithms.
+
+> New Features
+ * Configuration variables:
+ *** ramdisk_memsize - set size of internal RAM Disk
+ * Commands:
+ *** AT+S.FSM - id 0x31 - mount Filesystem
+ * [Peripherals] Added instance #2 to PWM
+ * [Peripherals] GPIO19 and GPIO20
+ * [MicroPython] TFTP module
+ * [MicroPython] HTTP module
+ * [MicroPython] SMTP module
+ * [MicroPython] MQTT module
+ * [MicroPython] WebSocket module
+ * [TLS] Added instance #2 to simultaneous clients
+ * [TLS] ECDH and ECDSA key exchange algorithms
+ * [Webserver] File upload capability through HTTP POST extended to 4 instances at a time
+ * [Supplicant] Added possibility to use miniAP with WPA authentication
+ * [Filesystem] MX25L6433F 8MB Flash management
+
+> Bug fixes
+ * [Supplicant] KRACK vulnerability
+ * [MicroPython] Garbage collector
+ * [MicroPython] Lock on multiple incoming +WIND:num:event
+ * [SPI] nCS level check
+ * [SPI] Wrong bytes sent into header
+ * [MQTT] Repeated character at the end of topic name inside "+WIND:86:MQTT Published"
+ * [WebServer] Watchdog coming from INPUTSSI command
+ * [WebServer] Synchronous (AT-S.event) and asynchronous (+WIND:num:event) mixed up
+ * [Filesystem] Memory leak in FSP command
+ * [Peripherals] Reload into PWM command
+
+> Backward compatibility changes
+ * Updated configuration variables ("+WIND:73:System Configuration Updated" displayed)
+ * Save on SDCard when: both ram_fs and extvol_fs status variables are found as 1, ext_volume configuration variable is set to 1, and no path is specified
+ * Added MAC address inside "+WIND:29:DHCP Reply"
+ * Added Id field to PWM command
+ * Removed "<Cr><Lf>" from asynchronous (+WIND:num:event) events in SPI protocol
+ * When SPI interface is used, "console_verbose" variable must be configured to 0 to assure fully compatibility with firwmare "Rel 1.0.0". Default value is 1.
+
+> Known issues
+ * Memory leak in miniAP WiFi off
+
+> Updated Libraries
+ * MicroPython - V1.8.7
+ * WPA/WPA2/IEEE 802.1X Supplicant - V2.6
+ * CW1100 UMAC Driver - V2.0.0
+ * SEVENSTAX - V9.6.0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+20170216 (Rel 1.0.0)
+========
+Highlight: Initial Release
+
+> Included Libraries
+ * STM32F4xx Standard Peripherals Drivers - V1.7.1
+ * STM32F4xx CMSIS  - V1.7.0
+ * STM32 CPAL Library Drivers - V1.2.0
+ * CW1100 UMAC Driver - V1.0.0
+ * WPA/WPA2/IEEE 802.1X Supplicant - V2.0
+ * FreeRTOS - V8.2.3
+ * FatFs - V0.11a
+ * MicroPython - V1.6.2
+ * SEVENSTAX - V9.4.0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Software Versioning Rules (Rel x.y.z)
+* Product_MAIN  (x)   : Incremented with radical changes
+* Product_SUB   (y)   : Incremented with new features
+* Product_BUILD (z)   : Incremented with improvements/fixes
