@@ -2,59 +2,42 @@
 // File: wifi_ssi.c - Wifi SSI functions
 //
 
-//	char AT_Str[400];
-//	char Value_Str[400];
-//	char AT_Rpl[400];
-//
-//#ifdef USART_PRINT_MSG
-//	// UART_Msg_Gpio_Init();
-//#if defined (USE_STM32L0XX_NUCLEO)
-//	USART_PRINT_MSG_Configuration(&UART_MsgHandle, 115200); //L0 max rate?
-//#else
-//	USART_PRINT_MSG_Configuration(&huart3, 115200);
-//#endif
-//	Set_UartMsgHandle(&huart3); //this is required for the console handler initialization
-//#endif
-//
-//	printf("\r\n Robot console starting \r\n");
-//
-//	printf("\r\n Please wait... \r\n");
-//
-//
-//#if defined (USE_STM32L0XX_NUCLEO)
-//	autodetect = WiFi_Module_UART_Configuration(115200); //115200 //460800 //921600
-//#else
-//	// autodetect = WiFi_Module_UART_Configuration(115200); //115200 //460800 //921600
-//#endif
-//
-//	// WiFi_Module_UART_Configuration(115200); //115200 //460800 //921600
-//	USART2->CR3 |= 0x00000040;
-//
-//	autodetect = HAL_OK;
-//
-////	if (autodetect == HAL_OK)
-////		UART_DMA_Init();
-////	else {
-////		printf("\rError in baud-rate auto-detection...\r\n");
-////	}
-//
-//	HAL_Delay(2000);
-//	printf("\r\n Console Ready... \r\n");
-//
-//	//	AT commands to program Wifi module
-//	//	AT+S.SCFG=blink_led,0
-//	//	AT+S.SSIDTXT=<RobotSSID>
-//	//	AT+S.SCFG=wifi_auth_type,0
-//	//	AT+S.SCFG=wifi_priv_mode,2
-//	//	AT+S.SCFG=wifi_wpa_psk_text,<secretkey>
-//	//	AT+S.SCFG=ip_hostname,<hostname>
-//	//	AT+S.SCFG=ip_apdomainname,<robot.net>
-//	//	AT+S.SCFG=ip_apredirect,index.html
-//	//	AT+S.WCFG
-//	//
-//	//	## Will erase data, DO NOT USE IF NOT INTENDED
-//	//	## AT+S.FSUPDATE=i,192.168.0.51,\fs.img,,,,
-//	//
-//	//	## Write data to robot.fhtml table
-//	//	AT+S.INPUTSSI=<strlen><CR>
-//	//	|10|20|30.3|40|55|<CR>
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "stm32f7xx_hal.h"
+
+#include "usart.h"
+
+/* USER CODE BEGIN Includes */
+
+#include "stdio.h"
+#include "string.h"
+
+void ssi_update(float locx, float locy, float locz, float accelx,
+						float accely, float accelz, float gyrox,
+						float gyroy, float gyroz, float dist,
+						float spd, float move, float temp, float pssr,
+						float humd, char *sts) {
+
+	char AT_Str[400];
+	char Value_Str[400];
+	char AT_Rpl[400];
+
+	uint8_t len_at, len_value;
+
+	memset(AT_Str,'\0',400);
+	memset(Value_Str,'\0',400);
+	memset(AT_Rpl,'\0',400);
+
+	len_value = sprintf(Value_Str,
+				"|%f|%f|%f|%f|%f|%f|%f|%f|%f|%f|%f|%f|%f|%f|%f|%s|\r",
+				locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,
+				dist,spd,move,temp,pssr,humd,sts);
+
+	len_at = sprintf(AT_Str,"AT+S.INPUTSSI=%d\r",len_value);
+
+	HAL_UART_Transmit_DMA(&huart2, (uint8_t *) AT_Str, len_at);
+	HAL_Delay(1000);
+	HAL_UART_Transmit_DMA(&huart2, (uint8_t *) Value_Str, len_value);
+
+}
