@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether
+  * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -46,6 +46,10 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "x_nucleo_ihmxx.h"
+#include "l6206.h"
+#include "x_nucleo_ihm04a1_stm32f4xx.h"
+
 #define USART_PRINT_MSG 1
 #define CONSOLE_UART_ENABLED 1
 #define WIFI_USE_VCOM 1
@@ -57,6 +61,8 @@
 
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
+#define MOTOR_ENB_Pin GPIO_PIN_10
+#define MOTOR_ENB_GPIO_Port GPIOF
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOH
 #define RMII_MDC_Pin GPIO_PIN_1
@@ -71,6 +77,12 @@
 #define RMII_RXD0_GPIO_Port GPIOC
 #define RMII_RXD1_Pin GPIO_PIN_5
 #define RMII_RXD1_GPIO_Port GPIOC
+#define MOTOR_ENA_Pin GPIO_PIN_15
+#define MOTOR_ENA_GPIO_Port GPIOF
+#define MOTOR_IN2A_Pin GPIO_PIN_9
+#define MOTOR_IN2A_GPIO_Port GPIOE
+#define MOTOR_IN1A_Pin GPIO_PIN_11
+#define MOTOR_IN1A_GPIO_Port GPIOE
 #define RMII_TXD1_Pin GPIO_PIN_13
 #define RMII_TXD1_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_14
@@ -79,6 +91,10 @@
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
+#define MOTOR_IN1B_Pin GPIO_PIN_12
+#define MOTOR_IN1B_GPIO_Port GPIOD
+#define MOTOR_IN2B_Pin GPIO_PIN_13
+#define MOTOR_IN2B_GPIO_Port GPIOD
 #define USB_PowerSwitchOn_Pin GPIO_PIN_6
 #define USB_PowerSwitchOn_GPIO_Port GPIOG
 #define USB_OverCurrent_Pin GPIO_PIN_7
@@ -97,14 +113,14 @@
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define UART2_WIFI_TX_Pin GPIO_PIN_5
-#define UART2_WIFI_TX_GPIO_Port GPIOD
-#define UART2_WIFI_RX_Pin GPIO_PIN_6
-#define UART2_WIFI_RX_GPIO_Port GPIOD
+#define UART6_WIFI_RX_Pin GPIO_PIN_9
+#define UART6_WIFI_RX_GPIO_Port GPIOG
 #define RMII_TX_EN_Pin GPIO_PIN_11
 #define RMII_TX_EN_GPIO_Port GPIOG
 #define RMII_TXD0_Pin GPIO_PIN_13
 #define RMII_TXD0_GPIO_Port GPIOG
+#define UART6_WIFI_TX_Pin GPIO_PIN_14
+#define UART6_WIFI_TX_GPIO_Port GPIOG
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 #define LD2_Pin GPIO_PIN_7
@@ -116,7 +132,7 @@
 
 /* ########################## Assert Selection ############################## */
 /**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the
+  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
   *        HAL drivers code
   */
 /* #define USE_FULL_ASSERT    1U */
@@ -142,6 +158,8 @@ typedef enum {
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
+
+extern void motor_init(void);
 
 /* Private macro ------------------------------------------------------------ */
 #ifdef USART_PRINT_MSG
@@ -189,10 +207,10 @@ typedef enum {
 #endif //USART_PRINT_MSG
 
 /* Definition for USARTx Pins */
-#define WiFi_USART_TX_PIN                    UART2_WIFI_TX_Pin
-#define WiFi_USART_TX_GPIO_PORT              GPIOD
+#define WiFi_USART_TX_PIN                    UART6_WIFI_TX_Pin
+#define WiFi_USART_TX_GPIO_PORT              GPIOG
 #define WiFi_USART_RX_PIN                    UART2_WIFI_RX_Pin
-#define WiFi_USART_RX_GPIO_PORT              GPIOD
+#define WiFi_USART_RX_GPIO_PORT              GPIOG
 
 #define WiFi_USART_RTS_PIN                    GPIO_PIN_12
 #define WiFi_USART_RTS_GPIO_PORT              GPIOA

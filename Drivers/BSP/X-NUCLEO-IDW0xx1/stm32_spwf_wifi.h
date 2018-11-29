@@ -302,7 +302,7 @@ resources */
 
 #if defined (USE_STM32L4XX_NUCLEO) || defined (USE_STM32F7XX_NUCLEO)
 #define USARTx_IRQn                     USART2_IRQn
-#define USARTx_IRQHandler               USART2_IRQHandler
+// TV Defined in main.h
 
 #define USARTx_EXTI_IRQn                EXTI15_10_IRQn
 #define USARTx_EXTI_IRQHandler          EXTI15_10_IRQHandler
@@ -335,13 +335,13 @@ resources */
 #define WIFI_CONSOLE_DMA_STREAM          DMA1_Stream1
 #define WIFI_CONSOLE_LL_DMA              LL_DMA_STREAM_1
 
-#define WIFI_UART_DMA                 DMA1
-#define WIFI_UART_DMA_CHANNEL         DMA_CHANNEL_4
-#define WIFI_UART_DMA_STREAM          DMA1_Stream5
-#define WIFI_UART_LL_DMA              LL_DMA_STREAM_5
+#define WIFI_UART_DMA                 DMA2
+#define WIFI_UART_DMA_CHANNEL         DMA_CHANNEL_5
+#define WIFI_UART_DMA_STREAM          DMA2_Stream1
+#define WIFI_UART_LL_DMA              LL_DMA_STREAM_1
 
 #define WIFI_CONSOLE_DMA_IRQn         DMA1_Stream1_IRQn
-#define WIFI_UART_DMA_IRQn            DMA1_Stream5_IRQn
+#define WIFI_UART_DMA_IRQn            DMA2_Stream1_IRQn
 
 #endif //USE_STM32F7XX_NUCLEO
 #endif

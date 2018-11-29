@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether
+  * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -68,12 +68,6 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 
-extern void ssi_update(float locx, float locy, float locz, float accelx,
-						float accely, float accelz, float gyrox,
-						float gyroy, float gyroz, float dist,
-						float spd, float move, float temp, float pssr,
-						float humd, char *sts);
-
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
@@ -130,18 +124,18 @@ int main(void)
   MX_I2C1_Init();
   MX_I2C2_Init();
   MX_RTC_Init();
-  MX_SPI1_Init();
-  MX_SPI2_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_UART5_Init();
   MX_UART7_Init();
-  MX_UART8_Init();
   MX_USART2_UART_Init();
   MX_USART6_UART_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+
+  motor_init();
 
 	USART_PRINT_MSG_Configuration(&huart3, 115200);
 	Set_UartMsgHandle(&huart3); //this is required for the console handler initialization
@@ -149,7 +143,7 @@ int main(void)
 	printf("\r\n Please wait... \r\n");
 
 	// Wifi UART DMA enable
-	USART2->CR3 |= 0x00000040;
+	USART6->CR3 |= 0x00000040;
 
 	HAL_Delay(2000);
 	printf("\r\n Ready... Updating ... \r\n");
@@ -161,6 +155,9 @@ int main(void)
 
  	 float locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,dist,spd,move,temp,pssr,humd;
  	 char *sts;
+
+ 	BSP_MotorControl_SetMaxSpeed(0,10);
+ 	BSP_MotorControl_Run(0, FORWARD);
 
  	 while (1) {
 
@@ -184,10 +181,14 @@ int main(void)
 
 	 	 ssi_update(locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,dist,spd,move,temp,pssr,humd,sts);
 
+	  	BSP_MotorControl_Run(0, FORWARD);
+
 	 	 HAL_Delay(5000);
 
  		 strcpy(sts, "Status BAD");
 	 	 ssi_update(locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,dist,spd,move,temp,pssr,humd,sts);
+
+	 	BSP_MotorControl_SoftStop(0);
 
 	 	HAL_Delay(5000);
 
@@ -211,13 +212,13 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 
-    /**Configure the main internal regulator output voltage
+    /**Configure the main internal regulator output voltage 
     */
   __HAL_RCC_PWR_CLK_ENABLE();
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
 
-    /**Initializes the CPU, AHB and APB busses clocks
+    /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
@@ -233,14 +234,14 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Activate the Over-Drive mode
+    /**Activate the Over-Drive mode 
     */
   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Initializes the CPU, AHB and APB busses clocks
+    /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -257,15 +258,13 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_USART2
                               |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_USART6
                               |RCC_PERIPHCLK_UART5|RCC_PERIPHCLK_UART7
-                              |RCC_PERIPHCLK_UART8|RCC_PERIPHCLK_I2C1
-                              |RCC_PERIPHCLK_I2C2;
+                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_I2C2;
   PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
   PeriphClkInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Uart5ClockSelection = RCC_UART5CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Usart6ClockSelection = RCC_USART6CLKSOURCE_PCLK2;
   PeriphClkInitStruct.Uart7ClockSelection = RCC_UART7CLKSOURCE_PCLK1;
-  PeriphClkInitStruct.Uart8ClockSelection = RCC_UART8CLKSOURCE_PCLK1;
   PeriphClkInitStruct.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
   PeriphClkInitStruct.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
@@ -273,11 +272,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure the Systick interrupt time
+    /**Configure the Systick interrupt time 
     */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
-    /**Configure the Systick
+    /**Configure the Systick 
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -338,7 +337,7 @@ void _Error_Handler(char *file, int line)
   * @retval None
   */
 void assert_failed(uint8_t* file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

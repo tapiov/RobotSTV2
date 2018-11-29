@@ -71,7 +71,7 @@
   */
 
 GPIO_InitTypeDef  WAKEUP_InitStruct;
-UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart6;
 UART_HandleTypeDef huart3;
 
 /**
@@ -1670,8 +1670,8 @@ WiFi_Status_t wifi_tftp_put(uint8_t * hostname, uint32_t port_number, uint8_t * 
 *         NOTE:       {data} used to fill the buffer must be properly set. The first byte is used as a token
 *                     splitter; so use this special character to fill the buffer with multiple tokens. Every token can
 *                     be directly referred remotely by SSI indexes contained inside the HTML page. For
-*                     example: “|hello|world|” will create 2 tokens: "hello” accessed by <!--|06|Input|0|-->, and
-*                     “world” accessed by <!--|06|Input|1|-->.
+*                     example: ï¿½|hello|world|ï¿½ will create 2 tokens: "helloï¿½ accessed by <!--|06|Input|0|-->, and
+*                     ï¿½worldï¿½ accessed by <!--|06|Input|1|-->.
 * @retval WiFi_Status_t : return status of AT cmd response
 */
 
@@ -2524,7 +2524,7 @@ WiFi_Status_t wifi_enable(wifi_bool enable)
 #if defined(CONSOLE_UART_ENABLED)
 
   sprintf((char*)WiFi_AT_Cmd_Buff,AT_WIFI_ENABLE, enable);
-	if (HAL_UART_Transmit(&huart2, (uint8_t *) WiFi_AT_Cmd_Buff,
+	if (HAL_UART_Transmit(&huart6, (uint8_t *) WiFi_AT_Cmd_Buff,
 			strlen((char*) WiFi_AT_Cmd_Buff), 1000) != HAL_OK)
   {
     WiFi_UART_Error_Handler();

@@ -1,10 +1,15 @@
-/**
+/**************************************************************************//**
+  * @file    L6206_target_config.h
+  * @author  IPC Rennes
+  * @version V1.2.0
+  * @date    September 29th, 2016
+  * @brief   Predefines values for the L6206 parameters
+  * and for the devices parameters
+  * @note    (C) COPYRIGHT 2016 STMicroelectronics
   ******************************************************************************
-  * @file    stm32f7xx_it.h
-  * @brief   This file contains the headers of the interrupt handlers.
-  ******************************************************************************
+  * @attention
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -32,44 +37,66 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32F7xx_IT_H
-#define __STM32F7xx_IT_H
+#ifndef __L6206_TARGET_CONFIG_H
+#define __L6206_TARGET_CONFIG_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif 
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx_hal.h"
-#include "main.h"
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
+/** @addtogroup BSP
+  * @{
+  */   
+   
+/** @addtogroup L6474
+  * @{
+  */   
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void MemManage_Handler(void);
-void BusFault_Handler(void);
-void UsageFault_Handler(void);
-void SVC_Handler(void);
-void DebugMon_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
-void DMA1_Stream1_IRQHandler(void);
-void DMA1_Stream3_IRQHandler(void);
-void DMA1_Stream5_IRQHandler(void);
-void DMA1_Stream6_IRQHandler(void);
-void USART2_IRQHandler(void);
-void USART3_IRQHandler(void);
-void DMA2_Stream1_IRQHandler(void);
-void DMA2_Stream6_IRQHandler(void);
-void USART6_IRQHandler(void);
+/** @addtogroup L6206_Exported_Constants
+  * @{
+  */   
+   
+/** @defgroup Predefined_L6206_Parameters_Values Predefined L6206 Parameters Values
+  * @{
+  */   
+
+/// The maximum number of L6206 devices 
+#define MAX_NUMBER_OF_DEVICES                 (1)
+   
+/// The maximum number of BLDC motors connected to the L6206
+#define MAX_NUMBER_OF_BRUSH_DC_MOTORS                    (4)
+
+/// Frequency of PWM of Input 1 Bridge A in Hz up to 100000Hz
+#define L6206_CONF_PARAM_FREQ_PWM1A  (20000)
+/// Frequency of PWM of Input 2 Bridge A in Hz up to 100000Hz
+/// ON IHM04A1, must be identical to L6206_CONF_PARAM_FREQ_PWM1A as used timer is the same
+#define L6206_CONF_PARAM_FREQ_PWM2A  (20000)
+/// Frequency of PWM of Input 1 Bridge B in Hz up to 100000Hz
+#define L6206_CONF_PARAM_FREQ_PWM1B  (20000)
+/// Frequency of PWM of Input 2 Bridge B in Hz up to 100000Hz
+/// On IHM04A1, must be identical to L6206_CONF_PARAM_FREQ_PWM2B as used timer is the same    
+#define L6206_CONF_PARAM_FREQ_PWM2B  (20000)
+
+/// Frequency of PWM of Input 2 Bridge B (in kHz)
+#define L6206_CONF_PARAM_PARALLE_BRIDGES (PARALLELING_NONE___1_BIDIR_MOTOR_BRIDGE_A__1_BIDIR_MOTOR_BRIDGE_B)
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 #ifdef __cplusplus
-}
+  }
 #endif
 
-#endif /* __STM32F7xx_IT_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+#endif /* __L6206_TARGET_CONFIG_H */

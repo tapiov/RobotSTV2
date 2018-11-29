@@ -36,8 +36,8 @@ void ssi_update(float locx, float locy, float locz, float accelx,
 
 	len_at = sprintf(AT_Str,"AT+S.INPUTSSI=%d\r",len_value);
 
-	HAL_UART_Transmit_DMA(&huart2, (uint8_t *) AT_Str, len_at);
+	HAL_UART_Transmit_DMA(&huart6, (uint8_t *) AT_Str, len_at);
 	HAL_Delay(1000);
-	HAL_UART_Transmit_DMA(&huart2, (uint8_t *) Value_Str, len_value);
+	HAL_UART_Transmit_DMA(&huart6, (uint8_t *) Value_Str, len_value);
 
 }

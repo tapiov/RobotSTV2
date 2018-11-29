@@ -59,7 +59,7 @@
   * @{
   */
 
-UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart6;
 UART_HandleTypeDef huart3;
 
 wifi_instances_t wifi_instances;
@@ -89,8 +89,8 @@ size_t strnlen (const char* s, size_t maxlen)
 
 uint8_t console_send_char[1];
 
-DMA_HandleTypeDef hdma_usart2_rx;
-DMA_HandleTypeDef hdma_usart2_tx;
+DMA_HandleTypeDef hdma_usart6_rx;
+DMA_HandleTypeDef hdma_usart6_tx;
 DMA_HandleTypeDef hdma_usart3_rx;
 DMA_HandleTypeDef hdma_usart3_tx;
 
@@ -294,7 +294,7 @@ void UART_DMA_Init(void)
   HAL_NVIC_EnableIRQ(WIFI_UART_DMA_IRQn);
 
 #if defined (USE_STM32F7XX_NUCLEO) || defined (USE_STM32F1xx_NUCLEO)
-	DmaSrcAddr = (uint32_t) USART2_BASE + 0x24U; //&huart2.Instance->DR; //console_input_char;
+	DmaSrcAddr = (uint32_t) USART6_BASE + 0x24U; //&huart6.Instance->DR; //console_input_char;
 #endif
 #if defined (USE_STM32L0XX_NUCLEO) || defined (USE_STM32L4XX_NUCLEO)
   DmaSrcAddr  = (uint32_t) USART1_BASE + 0x24U;
@@ -337,15 +337,15 @@ void UART_DMA_Init(void)
 void DMA1_TransferComplete()
 {
   /* Process Locked */
-	huart2.Lock = HAL_LOCKED;
+	huart6.Lock = HAL_LOCKED;
 
-	huart2.ErrorCode = HAL_UART_ERROR_NONE;
+	huart6.ErrorCode = HAL_UART_ERROR_NONE;
 #if defined (USE_STM32F7XX_NUCLEO) || defined (USE_STM32L4XX_NUCLEO)
-	huart2.gState = HAL_UART_STATE_BUSY_TX;
+	huart6.gState = HAL_UART_STATE_BUSY_TX;
 #endif
-	huart2.pTxBuffPtr = (uint8_t*) console_send_char;
-	huart2.TxXferSize = 1;
-	huart2.TxXferCount = 1;
+	huart6.pTxBuffPtr = (uint8_t*) console_send_char;
+	huart6.TxXferSize = 1;
+	huart6.TxXferCount = 1;
 
 #if defined (USE_STM32L0XX_NUCLEO) || defined (USE_STM32F1xx_NUCLEO)
   /* Check if a receive process is ongoing or not */
@@ -359,10 +359,10 @@ void DMA1_TransferComplete()
     }
 #endif
   // Process Unlocked
-	huart2.Lock = HAL_UNLOCKED;
+	huart6.Lock = HAL_UNLOCKED;
 
   // Enable the UART Transmit data register empty Interrupt
-	__HAL_UART_ENABLE_IT(&huart2, UART_IT_TXE);
+	__HAL_UART_ENABLE_IT(&huart6, UART_IT_TXE);
 
 #ifdef USE_STM32F1xx_NUCLEO
   //__HAL_DMA_ENABLE_IT(&DMA_UART_RX, DMA_IT_TC);
@@ -381,7 +381,7 @@ void DMA1_TransferComplete()
 
 #endif
   /* Process Unlocked */
-	huart2.Lock = HAL_UNLOCKED;
+	huart6.Lock = HAL_UNLOCKED;
 }
 
 // WIFI - UART - RX Complete
@@ -425,7 +425,7 @@ void DMA2_TransferComplete()
 #ifdef USE_STM32F7XX_NUCLEO
 	LL_DMA_EnableIT_TC(WIFI_UART_DMA, WIFI_UART_LL_DMA);
 	LL_DMA_EnableStream(WIFI_UART_DMA, WIFI_UART_LL_DMA);
-	LL_DMA_ClearFlag_TC5(DMA1);
+	LL_DMA_ClearFlag_TC1(DMA2);
 #endif
 #ifdef USE_STM32L4XX_NUCLEO
   //LL_DMA_EnableIT_TC(WIFI_UART_DMA, WIFI_UART_LL_DMA);
@@ -660,7 +660,7 @@ void PowerUp_WiFi_Module(void)
 void Receive_Data(void)
 {
   HAL_GPIO_WritePin(WiFi_USART_RTS_GPIO_PORT, WiFi_USART_RTS_PIN, GPIO_PIN_RESET);//Assert RTS
-	if (HAL_UART_Receive_IT(&huart2,
+	if (HAL_UART_Receive_IT(&huart6,
 			(uint8_t *) WiFi_Counter_Variables.uart_byte, 1) != HAL_OK)
     {
       #if DEBUG_PRINT
@@ -683,9 +683,9 @@ void Receive_Data(void)
 void Receive_DMA_Uart_Data(void)
 {
 
-	extern UART_HandleTypeDef huart2;
+	extern UART_HandleTypeDef huart6;
 
-	if (HAL_UART_Receive_DMA(&huart2, (uint8_t *) dma_buffer, DMA_BUFFER_SIZE)
+	if (HAL_UART_Receive_DMA(&huart6, (uint8_t *) dma_buffer, DMA_BUFFER_SIZE)
 			!= HAL_OK)
     {
       #if DEBUG_PRINT
@@ -1094,7 +1094,7 @@ void Wifi_TIM_Handler(TIM_HandleTypeDef *htim)
               Reset_AT_CMD_Buffer();
               #if defined(CONSOLE_UART_ENABLED)
                   WiFi_Control_Variables.stop_event_dequeue = WIFI_TRUE;
-					HAL_status = HAL_UART_Transmit_DMA(&huart2,
+					HAL_status = HAL_UART_Transmit_DMA(&huart6,
 							(uint8_t *) WiFi_Counter_Variables.curr_data,
 							WiFi_Counter_Variables.curr_DataLength);
               #else
@@ -1134,7 +1134,7 @@ void Wifi_TIM_Handler(TIM_HandleTypeDef *htim)
 
               #if defined(CONSOLE_UART_ENABLED)
                 WiFi_Control_Variables.stop_event_dequeue = WIFI_TRUE;
-					HAL_status = HAL_UART_Transmit_DMA(&huart2,
+					HAL_status = HAL_UART_Transmit_DMA(&huart6,
 							(uint8_t *) WiFi_Counter_Variables.curr_data,
 							WiFi_Counter_Variables.curr_DataLength);
               #else
@@ -1303,7 +1303,7 @@ void Wifi_TIM_Handler(TIM_HandleTypeDef *htim)
                 #endif
               #else
                 WiFi_Control_Variables.stop_event_dequeue = WIFI_TRUE;
-					HAL_status = HAL_UART_Transmit_DMA(&huart2,
+					HAL_status = HAL_UART_Transmit_DMA(&huart6,
 							(uint8_t *) WiFi_Counter_Variables.curr_data,
 							WiFi_Counter_Variables.curr_DataLength);
               #endif
@@ -2227,7 +2227,7 @@ void WiFi_HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandleArg)
 void WiFi_HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandleArg)
 {
 #ifdef WIFI_USE_VCOM
-	//if (UartHandleArg==&huart2)
+	//if (UartHandleArg==&huart6)
 #endif
   {
     #ifndef WIFI_USE_VCOM
@@ -2241,7 +2241,7 @@ void WiFi_HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandleArg)
 //        __disable_irq();
 //        push_buffer_queue(&wifi_instances.big_buff, WiFi_Counter_Variables.uart_byte);
 //        __enable_irq();
-//        HAL_UART_Receive_IT(&huart2, (uint8_t *)WiFi_Counter_Variables.uart_byte, 1);
+//        HAL_UART_Receive_IT(&huart6, (uint8_t *)WiFi_Counter_Variables.uart_byte, 1);
 //        //console_push_ready = SET;
     #endif
 
@@ -2292,7 +2292,7 @@ void WiFi_HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandleArg)
 //    {
 //      console_send_char[0] = console_input_char[0];
 //      //console_send_ready = SET;
-//      HAL_UART_Transmit_IT(&huart2, (uint8_t*)console_send_char, 1);
+//      HAL_UART_Transmit_IT(&huart6, (uint8_t*)console_send_char, 1);
 //      console_input();
 //    }
 #endif
@@ -3314,7 +3314,7 @@ WiFi_Status_t USART_Transmit_AT_Cmd(uint16_t size)
     }
 
 #if defined(USART3_INT_MODE)
-	if(HAL_UART_Transmit_IT(&huart2, (uint8_t *)WiFi_AT_Cmd_Buff, size)!= HAL_OK)
+	if(HAL_UART_Transmit_IT(&huart6, (uint8_t *)WiFi_AT_Cmd_Buff, size)!= HAL_OK)
     {
       WiFi_UART_Error_Handler();
       return WiFi_HAL_UART_ERROR;
@@ -3327,7 +3327,7 @@ WiFi_Status_t USART_Transmit_AT_Cmd(uint16_t size)
 
 #elif defined(USART3_POLLING_MODE)
   //while(Uartx_Rx_Processing!=WIFI_FALSE);
-	if (HAL_UART_Transmit(&huart2, (uint8_t *) WiFi_AT_Cmd_Buff, size, 1000)
+	if (HAL_UART_Transmit(&huart6, (uint8_t *) WiFi_AT_Cmd_Buff, size, 1000)
 			!= HAL_OK)
     {
       WiFi_UART_Error_Handler();
@@ -3709,7 +3709,7 @@ WiFi_Status_t config_init_value(char* sVar_name,uint32_t aValue)
   WiFi_Status_t status = WiFi_MODULE_SUCCESS;
   Reset_AT_CMD_Buffer();
   sprintf((char*)WiFi_AT_Cmd_Buff,AT_SET_CONFIGURATION_VALUE,sVar_name,(int)aValue);
-	if (HAL_UART_Transmit(&huart2, (uint8_t *) WiFi_AT_Cmd_Buff,
+	if (HAL_UART_Transmit(&huart6, (uint8_t *) WiFi_AT_Cmd_Buff,
 			strlen((char*) WiFi_AT_Cmd_Buff), 1000) != HAL_OK)
     {
       WiFi_UART_Error_Handler();
@@ -3732,7 +3732,7 @@ WiFi_Status_t config_init_addr(char* sVar_name,char* addr)
   WiFi_Status_t status = WiFi_MODULE_SUCCESS;
   Reset_AT_CMD_Buffer();
   sprintf((char*)WiFi_AT_Cmd_Buff,AT_SET_CONFIGURATION_ADDRESS,sVar_name,addr);
-	if (HAL_UART_Transmit(&huart2, (uint8_t *) WiFi_AT_Cmd_Buff,
+	if (HAL_UART_Transmit(&huart6, (uint8_t *) WiFi_AT_Cmd_Buff,
 			strlen((char*) WiFi_AT_Cmd_Buff), 1000) != HAL_OK)
     {
       WiFi_UART_Error_Handler();
@@ -3759,16 +3759,16 @@ WiFi_Status_t Attention_Cmd_Check()
   strcat((char*)attention_cmd, AT_ATTENTION);
   sprintf((char*)WiFi_AT_Cmd_Buff,(char*)attention_cmd);
 
-	HAL_UART_Transmit(&huart2, (uint8_t *) WiFi_AT_Cmd_Buff, 6, 1000);
-	HAL_UART_Receive(&huart2, (uint8_t *) USART_RxBuffer, 4000, 10000);
+	HAL_UART_Transmit(&huart6, (uint8_t *) WiFi_AT_Cmd_Buff, 6, 1000);
+	HAL_UART_Receive(&huart6, (uint8_t *) USART_RxBuffer, 4000, 10000);
 
 	// status = USART_Transmit_AT_Cmd(strlen((char*)WiFi_AT_Cmd_Buff));
 //  if(status == WiFi_MODULE_SUCCESS)
 //  {
 //#if defined (USE_STM32L4XX_NUCLEO) || defined (USE_STM32F7XX_NUCLEO)
-//		while ((huart2.RxState != HAL_UART_STATE_READY) && (i < 1)) { //be sure to check 1000 ticks are enough, otherwise set a longer timeout
+//		while ((huart6.RxState != HAL_UART_STATE_READY) && (i < 1)) { //be sure to check 1000 ticks are enough, otherwise set a longer timeout
 //#else //F1 or L0
-//		while ((huart2.gState != HAL_UART_STATE_READY) && (i < 1000)) {
+//		while ((huart6.gState != HAL_UART_STATE_READY) && (i < 1000)) {
 //#endif
 //        //__NOP();
 //        i++;
@@ -3779,7 +3779,7 @@ WiFi_Status_t Attention_Cmd_Check()
 
 //	HAL_Delay(1);
 //
-//	HAL_Stat = HAL_UART_Receive(&huart2, (uint8_t *) USART_RxBuffer,
+//	HAL_Stat = HAL_UART_Receive(&huart6, (uint8_t *) USART_RxBuffer,
 //					(AT_RESP_LEN_OK + AT_RESP_LEN_OK + AT_ATTENTION_LEN
 //					+ AT_ATTENTION_LEN - 2), 10000);
 //
@@ -3820,7 +3820,7 @@ WiFi_Status_t WaitForResponse(uint16_t alength)
 
   if(alength <= RxBufferSize)
   {
-		if (HAL_UART_Receive(&huart2, (uint8_t *) USART_RxBuffer, alength, 1000)
+		if (HAL_UART_Receive(&huart6, (uint8_t *) USART_RxBuffer, alength, 1000)
 				!= HAL_OK)
       {
         WiFi_UART_Error_Handler();

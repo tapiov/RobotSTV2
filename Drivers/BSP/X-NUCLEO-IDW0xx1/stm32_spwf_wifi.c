@@ -51,7 +51,7 @@
   * @{
   */
 
-UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart6;
 
 /** @defgroup NUCLEO_WIFI_DRIVER_Private_Defines
   * @{
@@ -198,18 +198,18 @@ uint32_t uwPrescalerValue = 0;
 // TV Now using the same format
 void UART_Configuration(uint32_t baud_rate) {
 
-	UART_HandleTypeDef huart2;
+	UART_HandleTypeDef huart6;
 
-	huart2.Instance = USART2;
-	huart2.Init.BaudRate = baud_rate;
-	huart2.Init.WordLength = UART_WORDLENGTH_8B;
-	huart2.Init.StopBits = UART_STOPBITS_1;
-	huart2.Init.Parity = UART_PARITY_NONE;
-	huart2.Init.Mode = UART_MODE_TX_RX;
-	huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-	huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_ENABLED;
-	huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+	huart6.Instance = USART6;
+	huart6.Init.BaudRate = baud_rate;
+	huart6.Init.WordLength = UART_WORDLENGTH_8B;
+	huart6.Init.StopBits = UART_STOPBITS_1;
+	huart6.Init.Parity = UART_PARITY_NONE;
+	huart6.Init.Mode = UART_MODE_TX_RX;
+	huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	huart6.Init.OverSampling = UART_OVERSAMPLING_16;
+	huart6.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_ENABLED;
+	huart6.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
 //	UartWiFiHandle.Instance = WB_WIFI_UART;
 //	UartWiFiHandle.Init.BaudRate = baud_rate;
@@ -226,18 +226,18 @@ void UART_Configuration(uint32_t baud_rate) {
 //	UartWiFiHandle.Init.OverSampling = UART_OVERSAMPLING_16;
 //	//UartWiFiHandle.Init.OneBitSampling  = UART_ONEBIT_SAMPLING_ENABLED;
 
-	if (HAL_UART_DeInit(&huart2) != HAL_OK) {
+	if (HAL_UART_DeInit(&huart6) != HAL_OK) {
 		_Error_Handler(__FILE__, __LINE__);
 	}
-	if (HAL_UART_Init(&huart2) != HAL_OK) {
+	if (HAL_UART_Init(&huart6) != HAL_OK) {
 		_Error_Handler(__FILE__, __LINE__);
 	}
 #ifdef WIFI_USE_VCOM
 	/*## -1- Enable USART1 DMAR #################################################*/
 
-	USART2->CR3 |= 0x00000040;
+	USART6->CR3 |= 0x00000040;
 
-	// huart2.Instance->CR3 |= 0x00000040;
+	// huart6.Instance->CR3 |= 0x00000040;
 	// UART_MsgHandle->Instance->CR3 |= 0x00000040;
 #endif //WIFI_USE_VCOM
 }
