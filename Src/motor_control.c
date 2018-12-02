@@ -6,6 +6,12 @@
  */
 
 
+#include "stdio.h"
+#include "string.h"
+
+#include "l6206.h"
+#include "x_nucleo_ihmxx.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 
@@ -17,7 +23,7 @@
 /* Private function prototypes -----------------------------------------------*/
 
 static void MyFlagInterruptHandler(void);
-void ButtonHandler(void);
+void Error_Handler(uint16_t error);
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -59,93 +65,6 @@ void motor_init(void) {
   /* Set PWM Frequency of bridge B inputs to 10000 Hz */
   BSP_MotorControl_SetBridgeInputPwmFreq(1,10000);
 
-
-
-
-
-
-  /* Infinite loop */
-  while(1)
-  {
-    /* Each time the user button is pressed, the step is increased by 1 */
-    if (gButtonPressed)
-    {
-      gButtonPressed = FALSE;
-      gStep++;
-      if (gStep > MAX_STEPS)
-      {
-        gStep = 0;
-      }
-
-      switch (gStep)
-      {
-        case 0:
-          /*********** Step 0  ************/
-          /* Set speed of motor 0 to 100 % */
-          BSP_MotorControl_SetMaxSpeed(0,100);
-          /* start motor 0 to run forward*/
-          BSP_MotorControl_Run(0, FORWARD);
-          break;
-
-         case 1:
-          /*********** Step 1  ************/
-          /* Set speed of motor 0 to 75 % */
-          BSP_MotorControl_SetMaxSpeed(0,75);
-          break;
-
-        case 2:
-          /*********** Step 2 ************/
-          /* Set speed of motor 0 to 50 % */
-          BSP_MotorControl_SetMaxSpeed(0,50);
-          break;
-
-        case 3:
-          /*********** Step 3 ************/
-          /* Set speed of motor 0 to 25 % */
-          BSP_MotorControl_SetMaxSpeed(0,25);
-          break;
-
-        case 4:
-          /*********** Step 4 ************/
-          /* Stop Motor 0 */
-          BSP_MotorControl_SetMaxSpeed(0,0);
-          BSP_MotorControl_HardStop(0);
-          break;
-         case 5:
-          /*********** Step 5  ************/
-          /* Set speed of motor 0 to 25 % */
-          BSP_MotorControl_SetMaxSpeed(0,25);
-          /* start motor 0 to run backward */
-          BSP_MotorControl_Run(0, BACKWARD);
-          break;
-
-         case 6:
-          /*********** Step 6  ************/
-          /* Set speed of motor 0 to 50 % */
-          BSP_MotorControl_SetMaxSpeed(0,50);
-          break;
-
-        case 7:
-          /*********** Step 7 ************/
-          /* Set speed of motor 0 to 75 % */
-          BSP_MotorControl_SetMaxSpeed(0,75);
-          break;
-
-        case 8:
-          /*********** Step 8 ************/
-          /* Set speed of motor 8 to 100 % */
-          BSP_MotorControl_SetMaxSpeed(0,100);
-          break;
-
-        case 9:
-        default:
-          /*********** Step 9 ************/
-          /* Stop Motor 0 and disable bridge*/
-          BSP_MotorControl_CmdHardHiZ(0);
-          break;
-      }
-    }
-  }
 }
 
 /**
@@ -187,20 +106,6 @@ void Error_Handler(uint16_t error)
   }
 }
 
-/**
-  * @brief  This function is executed when the Nucleo User button is pressed
-  * @param  error number of the error
-  * @retval None
-  */
-void ButtonHandler(void)
-{
-  gButtonPressed = TRUE;
-
-  /* Let 300 ms before clearing the IT for key debouncing */
-  HAL_Delay(300);
-  __HAL_GPIO_EXTI_CLEAR_IT(KEY_BUTTON_PIN);
-  HAL_NVIC_ClearPendingIRQ(KEY_BUTTON_EXTI_IRQn);
-}
 
 #ifdef  USE_FULL_ASSERT
 

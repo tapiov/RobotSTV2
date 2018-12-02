@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
+  * USER CODE END. Other portions of this file, whether
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -61,6 +61,7 @@
 
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
+#define USER_Btn_EXTI_IRQn EXTI15_10_IRQn
 #define MOTOR_ENB_Pin GPIO_PIN_10
 #define MOTOR_ENB_GPIO_Port GPIOF
 #define MCO_Pin GPIO_PIN_0
@@ -132,7 +133,7 @@
 
 /* ########################## Assert Selection ############################## */
 /**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
+  * @brief Uncomment the line below to expanse the "assert_param" macro in the
   *        HAL drivers code
   */
 /* #define USE_FULL_ASSERT    1U */
@@ -161,23 +162,12 @@ typedef enum {
 
 extern void motor_init(void);
 
+void ssi_update(float locx, float locy, float locz, float accelx, float accely,
+		float accelz, float gyrox, float gyroy, float gyroz, float dist,
+		float spd, float move, float temp, float pssr, float humd, char *sts);
+
 /* Private macro ------------------------------------------------------------ */
 #ifdef USART_PRINT_MSG
-
-#ifdef USE_STM32L0XX_NUCLEO
-
-#define WIFI_UART_MSG                           USART2
-#define USARTx_PRINT_CLK_ENABLE()              __USART2_CLK_ENABLE()
-#define USARTx_PRINT_RX_GPIO_CLK_ENABLE()      __GPIOA_CLK_ENABLE()
-#define USARTx_PRINT_TX_GPIO_CLK_ENABLE()      __GPIOA_CLK_ENABLE()
-
-#define USARTx_PRINT_FORCE_RESET()             __USART2_FORCE_RESET()
-#define USARTx_PRINT_RELEASE_RESET()           __USART2_RELEASE_RESET()
-
-#define PRINTMSG_USARTx_TX_AF                       GPIO_AF4_USART2
-#define PRINTMSG_USARTx_RX_AF                       GPIO_AF4_USART2
-
-#endif //USE_STM32L0XX_NUCLEO
 
 #if defined(USE_STM32F1xx_NUCLEO) || defined(USE_STM32F4XX_NUCLEO) || defined(USE_STM32L4XX_NUCLEO) || defined(USE_STM32F7XX_NUCLEO)
 

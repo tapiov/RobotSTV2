@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
+  * USER CODE END. Other portions of this file, whether
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -58,7 +58,7 @@ void MX_TIM1_Init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
 
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 5000;
+  htim1.Init.Prescaler = 1000;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 0;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -93,8 +93,8 @@ void MX_TIM1_Init(void)
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+	sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+	sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -194,7 +194,7 @@ void MX_TIM4_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
 
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 5000;
+  htim4.Init.Prescaler = 1000;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 0;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -297,9 +297,9 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
   /* USER CODE BEGIN TIM1_MspPostInit 0 */
 
   /* USER CODE END TIM1_MspPostInit 0 */
-    /**TIM1 GPIO Configuration    
+    /**TIM1 GPIO Configuration
     PE9     ------> TIM1_CH1
-    PE11     ------> TIM1_CH2 
+    PE11     ------> TIM1_CH2
     */
     GPIO_InitStruct.Pin = MOTOR_IN2A_Pin|MOTOR_IN1A_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -317,10 +317,10 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
   /* USER CODE BEGIN TIM4_MspPostInit 0 */
 
   /* USER CODE END TIM4_MspPostInit 0 */
-  
-    /**TIM4 GPIO Configuration    
+
+    /**TIM4 GPIO Configuration
     PD12     ------> TIM4_CH1
-    PD13     ------> TIM4_CH2 
+    PD13     ------> TIM4_CH2
     */
     GPIO_InitStruct.Pin = MOTOR_IN1B_Pin|MOTOR_IN2B_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -383,7 +383,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
   /* USER CODE END TIM4_MspDeInit 1 */
   }
-} 
+}
 
 /* USER CODE BEGIN 1 */
 

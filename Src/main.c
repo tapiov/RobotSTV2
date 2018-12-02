@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
+  * USER CODE END. Other portions of this file, whether
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -145,7 +145,7 @@ int main(void)
 	// Wifi UART DMA enable
 	USART6->CR3 |= 0x00000040;
 
-	HAL_Delay(2000);
+	HAL_Delay(4000);
 	printf("\r\n Ready... Updating ... \r\n");
 
   /* USER CODE END 2 */
@@ -156,10 +156,13 @@ int main(void)
  	 float locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,dist,spd,move,temp,pssr,humd;
  	 char *sts;
 
- 	BSP_MotorControl_SetMaxSpeed(0,10);
- 	BSP_MotorControl_Run(0, FORWARD);
-
  	 while (1) {
+
+		BSP_MotorControl_SetMaxSpeed(0, 10);
+		BSP_MotorControl_Run(0, FORWARD);
+
+		BSP_MotorControl_SetMaxSpeed(1, 10);
+		BSP_MotorControl_Run(1, FORWARD);
 
  		 strcpy(sts, "Status GOOD");
 
@@ -181,14 +184,14 @@ int main(void)
 
 	 	 ssi_update(locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,dist,spd,move,temp,pssr,humd,sts);
 
-	  	BSP_MotorControl_Run(0, FORWARD);
 
 	 	 HAL_Delay(5000);
 
  		 strcpy(sts, "Status BAD");
 	 	 ssi_update(locx,locy,locz,accelx,accely,accelz,gyrox,gyroy,gyroz,dist,spd,move,temp,pssr,humd,sts);
 
-	 	BSP_MotorControl_SoftStop(0);
+		BSP_MotorControl_SetMaxSpeed(0, 0);
+		BSP_MotorControl_SetMaxSpeed(1, 0);
 
 	 	HAL_Delay(5000);
 
@@ -212,13 +215,13 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 
-    /**Configure the main internal regulator output voltage 
+    /**Configure the main internal regulator output voltage
     */
   __HAL_RCC_PWR_CLK_ENABLE();
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
@@ -234,14 +237,14 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Activate the Over-Drive mode 
+    /**Activate the Over-Drive mode
     */
   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -272,11 +275,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure the Systick interrupt time 
+    /**Configure the Systick interrupt time
     */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
-    /**Configure the Systick 
+    /**Configure the Systick
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -337,7 +340,7 @@ void _Error_Handler(char *file, int line)
   * @retval None
   */
 void assert_failed(uint8_t* file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

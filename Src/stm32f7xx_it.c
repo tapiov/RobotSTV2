@@ -54,7 +54,7 @@ extern UART_HandleTypeDef huart3;
 extern UART_HandleTypeDef huart6;
 
 /******************************************************************************/
-/*            Cortex-M7 Processor Interruption and Exception Handlers         */ 
+/*            Cortex-M7 Processor Interruption and Exception Handlers         */
 /******************************************************************************/
 
 /**
@@ -206,16 +206,22 @@ void SysTick_Handler(void)
 /**
 * @brief This function handles DMA1 stream1 global interrupt.
 */
-//void DMA1_Stream1_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
+void DMA1_Stream1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
+	// CONSOLE - UART - RX
+
+	if (LL_DMA_IsActiveFlag_TC1(DMA1) == 1) {
+		LL_DMA_ClearFlag_TC1(DMA1);
+		DMA1_TransferComplete();
+	}
+
+  /* USER CODE END DMA1_Stream1_IRQn 0 */
+	// HAL_DMA_IRQHandler(&hdma_usart3_rx);
+  /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
 ////
-//  /* USER CODE END DMA1_Stream1_IRQn 0 */
-//  HAL_DMA_IRQHandler(&hdma_usart3_rx);
-//  /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
-////
-//  /* USER CODE END DMA1_Stream1_IRQn 1 */
-//}
+  /* USER CODE END DMA1_Stream1_IRQn 1 */
+}
 
 /**
 * @brief This function handles DMA1 stream3 global interrupt.
@@ -234,16 +240,16 @@ void DMA1_Stream3_IRQHandler(void)
 /**
 * @brief This function handles DMA1 stream5 global interrupt.
 */
-//void DMA1_Stream5_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
+void DMA1_Stream5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
 ////
-//  /* USER CODE END DMA1_Stream5_IRQn 0 */
-//  HAL_DMA_IRQHandler(&hdma_usart2_rx);
-//  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
+  /* USER CODE END DMA1_Stream5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_rx);
+  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
 ////
-//  /* USER CODE END DMA1_Stream5_IRQn 1 */
-//}
+  /* USER CODE END DMA1_Stream5_IRQn 1 */
+}
 
 /**
 * @brief This function handles DMA1 stream6 global interrupt.
@@ -262,44 +268,65 @@ void DMA1_Stream6_IRQHandler(void)
 /**
 * @brief This function handles USART2 global interrupt.
 */
-//void USART2_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN USART2_IRQn 0 */
+void USART2_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART2_IRQn 0 */
 ////
-//  /* USER CODE END USART2_IRQn 0 */
-//  HAL_UART_IRQHandler(&huart2);
-//  /* USER CODE BEGIN USART2_IRQn 1 */
+  /* USER CODE END USART2_IRQn 0 */
+  HAL_UART_IRQHandler(&huart2);
+  /* USER CODE BEGIN USART2_IRQn 1 */
 ////
-//  /* USER CODE END USART2_IRQn 1 */
-//}
+  /* USER CODE END USART2_IRQn 1 */
+}
 
 /**
 * @brief This function handles USART3 global interrupt.
 */
-//void USART3_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN USART3_IRQn 0 */
+void USART3_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_IRQn 0 */
 ////
-//  /* USER CODE END USART3_IRQn 0 */
-//  HAL_UART_IRQHandler(&huart3);
-//  /* USER CODE BEGIN USART3_IRQn 1 */
+  /* USER CODE END USART3_IRQn 0 */
+  HAL_UART_IRQHandler(&huart3);
+  /* USER CODE BEGIN USART3_IRQn 1 */
 ////
-//  /* USER CODE END USART3_IRQn 1 */
-//}
+  /* USER CODE END USART3_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[15:10] interrupts.
+*/
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
 
 /**
 * @brief This function handles DMA2 stream1 global interrupt.
 */
-//void DMA2_Stream1_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA2_Stream1_IRQn 0 */
+void DMA2_Stream1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream1_IRQn 0 */
+
+	// WIFI - UART - RX
+	if (LL_DMA_IsActiveFlag_TC1(DMA2) == 1) {
+		LL_DMA_ClearFlag_TC1(DMA2);
+		DMA2_TransferComplete();
+	}
+
 //
-//  /* USER CODE END DMA2_Stream1_IRQn 0 */
-//  HAL_DMA_IRQHandler(&hdma_usart6_rx);
-//  /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
+  /* USER CODE END DMA2_Stream1_IRQn 0 */
+	// HAL_DMA_IRQHandler(&hdma_usart6_rx);
+  /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
 //
-//  /* USER CODE END DMA2_Stream1_IRQn 1 */
-//}
+  /* USER CODE END DMA2_Stream1_IRQn 1 */
+}
 
 /**
 * @brief This function handles DMA2 stream6 global interrupt.
@@ -374,133 +401,22 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle) {
  * @param  None
  * @retval None
  */
-void USARTx_IRQHandler(void) {
-	// printf("WIFI UART IRQ");
-	HAL_UART_IRQHandler(&huart2);
-}
+//void USARTx_IRQHandler(void) {
+//	// printf("WIFI UART IRQ");
+//	HAL_UART_IRQHandler(&huart2);
+//}
 
 /**
  * @brief  This function handles USARTx vcom Handler.
  * @param  None
  * @retval None
  */
-#ifdef USART_PRINT_MSG
-void USARTx_PRINT_IRQHandler(void) {
-	// printf("CONSOLE UART IRQ");
-	HAL_UART_IRQHandler(&huart3);
-}
-#endif
-
-#ifdef WIFI_USE_VCOM
-
-#ifdef USE_STM32F7XX_NUCLEO
-// CONSOLE - UART - RX
-void DMA1_Stream1_IRQHandler(void) {
-	//printf("Reading from console\r\n");
-	if (LL_DMA_IsActiveFlag_TC1(DMA1) == 1) {
-		LL_DMA_ClearFlag_TC1(DMA1);
-		DMA1_TransferComplete();
-	}
-}
-
-// WIFI - UART - RX
-void DMA2_Stream1_IRQHandler(void) {
-	// printf("Reading from WIFI UART\r\n");
-	if (LL_DMA_IsActiveFlag_TC1(DMA2) == 1) {
-		LL_DMA_ClearFlag_TC1(DMA2);
-		DMA2_TransferComplete();
-	}
-}
-#endif //#ifdef USE_STM32F4XX_NUCLEO
-
-#ifdef USE_STM32L4XX_NUCLEO
-void DMA1_Channel6_IRQHandler(void)
-{
-	if(LL_DMA_IsActiveFlag_TC6(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_TC6(DMA1);
-		DMA1_TransferComplete();
-	}
-}
-
-void DMA1_Channel5_IRQHandler(void)
-{
-	if(LL_DMA_IsActiveFlag_TC5(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_TC5(DMA1);
-		DMA2_TransferComplete();
-	}
-}
-#endif //USE_STM32L4XX_NUCLEO
-
-#ifdef USE_STM32L0XX_NUCLEO
-
-void DMA_CONSOLE_IRQHANDLER(void)
-{
-	if(LL_DMA_IsActiveFlag_TC5(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_TC5(DMA1);
-		DMA1_TransferComplete();
-	}
-}
-
-void DMA_WIFI_IRQHANDLER(void)
-{
-	if(LL_DMA_IsActiveFlag_TC3(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_TC3(DMA1);
-		DMA2_TransferComplete();
-	}
-}
-
-#endif  //USE_STM32L0XX_NUCLEO
-
-#ifdef USE_STM32F1xx_NUCLEO
-static uint32_t DMA_IsActiveFlag_TC6(DMA_TypeDef *DMAx);
-static uint32_t DMA_IsActiveFlag_TC5(DMA_TypeDef *DMAx);
-static void DMA_ClearFlag_TC6(DMA_TypeDef *DMAx);
-static void DMA_ClearFlag_TC5(DMA_TypeDef *DMAx);
-
-static uint32_t DMA_IsActiveFlag_TC6(DMA_TypeDef *DMAx)
-{
-	return (READ_BIT(DMAx->ISR ,DMA_FLAG_TC6)==(DMA_FLAG_TC6));
-}
-
-static uint32_t DMA_IsActiveFlag_TC5(DMA_TypeDef *DMAx)
-{
-	return (READ_BIT(DMAx->ISR ,DMA_FLAG_TC5)==(DMA_FLAG_TC5));
-}
-
-static void DMA_ClearFlag_TC6(DMA_TypeDef *DMAx)
-{
-	SET_BIT(DMAx->IFCR , DMA_FLAG_TC6);
-}
-
-static void DMA_ClearFlag_TC5(DMA_TypeDef *DMAx)
-{
-	SET_BIT(DMAx->IFCR , DMA_FLAG_TC5);
-}
-
-void DMA_CONSOLE_IRQHANDLER(void)
-{
-	if(DMA_IsActiveFlag_TC6(DMA1) == 1)
-	{
-		DMA_ClearFlag_TC6(DMA1);
-		DMA1_TransferComplete();
-	}
-}
-
-void DMA_WIFI_IRQHANDLER(void)
-{
-	if(DMA_IsActiveFlag_TC5(DMA1) == 1)
-	{
-		DMA_ClearFlag_TC5(DMA1);
-		DMA2_TransferComplete();
-	}
-}
-#endif //USE_STM32F1xx_NUCLEO
-
-#endif //WIFI_USE_VCOM
+//#ifdef USART_PRINT_MSG
+//void USARTx_PRINT_IRQHandler(void) {
+//	// printf("CONSOLE UART IRQ");
+//	HAL_UART_IRQHandler(&huart3);
+//}
+//#endif
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
